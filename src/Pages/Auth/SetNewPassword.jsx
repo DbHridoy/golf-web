@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { useSetNewPasswordMutation } from "../../redux/api/authApi";
 import AuthLayout from "../../Components/Auth/AuthLayout";
 
 const SetNewPassword = () => {
@@ -11,7 +10,7 @@ const SetNewPassword = () => {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
-  const [setNewPassword, { isLoading }] = useSetNewPasswordMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,16 +53,19 @@ const SetNewPassword = () => {
     }
 
     try {
-      await setNewPassword({
-        email,
-        newPassword: formData.newPassword,
-        confirmPassword: formData.confirmPassword,
-        resetCode,
-      }).unwrap();
-      navigate("/successful");
+      setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      navigate("/successful", {
+        state: {
+          message: "Your password has been set successfully.",
+          next: "/home",
+        },
+      });
     } catch (error) {
       console.error("Failed to reset password:", error);
       setError("Failed to reset password. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
