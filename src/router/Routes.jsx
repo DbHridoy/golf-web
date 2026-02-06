@@ -11,7 +11,15 @@ import SetNewPassword from "../Pages/Auth/SetNewPassword";
 import Successful from "../Pages/Auth/Successful";
 import GlobalNoRoute from "../Pages/Common/GlobalNoRoute";
 import Signup from "../Pages/Auth/Signup";
-import RoleSelection from "../Pages/Auth/RoleSelection";
+import VerifyEmail from "../Pages/Auth/VerifyEmail";
+import Home from "../Pages/Common/Home";
+import Profile from "../Pages/Common/Profile";
+import CommonLayout from "../Layout/CommonLayout";
+import Chat from "../Pages/Common/Chat";
+import Notifications from "../Pages/Common/Notifications";
+import Search from "../Pages/Common/Search";
+import Clubs from "../Pages/Common/Clubs";
+import Experiences from "../Pages/Common/Experiences";
 
 
 
@@ -27,12 +35,24 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/login" replace /> },
       { path: "login", element: <Login /> },
-      // { path: "role-selection", element: <RoleSelection /> },
       { path: "signup", element: <Signup /> },
+      { path: "verify-email", element: <VerifyEmail /> },
       { path: "forgot-password", element: <ForgetPassword /> },
       { path: "verify-otp", element: <VerifyOtp /> },
       { path: "set-password", element: <SetNewPassword /> },
-      { path: "successful", element: <Successful /> }
+      { path: "successful", element: <Successful /> },
+      {
+        element: <CommonLayout />,
+        children: [
+          { path: "home", element: <Home /> },
+          { path: "search", element: <Search /> },
+          { path: "clubs", element: <Clubs /> },
+          { path: "experiences", element: <Experiences /> },
+          { path: "profile", element: <Profile /> },
+          { path: "chat", element: <Chat /> },
+          { path: "notifications", element: <Notifications /> },
+        ],
+      },
     ]
   },
 
