@@ -2,13 +2,12 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { useVerifyOtpMutation } from "../../redux/api/authApi";
 import AuthLayout from "../../Components/Auth/AuthLayout";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [error, setError] = useState("");
-  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,11 +69,14 @@ const VerifyOtp = () => {
     }
 
     try {
-      await verifyOtp({ email, otp: otpValue }).unwrap();
+      setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 500));
       navigate("/set-password", { state: { email, resetCode: otpValue } });
     } catch (error) {
       console.error("Failed to verify OTP:", error);
       setError("Invalid OTP code. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 

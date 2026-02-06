@@ -33,7 +33,7 @@ const Login = () => {
 
       // In a real app, you would verify credentials with your backend
       if (formData.email && formData.password) {
-        navigate("/");
+        navigate("/home");
       } else {
         setError("Please fill in all fields");
       }
