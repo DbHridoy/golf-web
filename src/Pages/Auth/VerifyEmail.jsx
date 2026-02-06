@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import AuthLayout from "../../Components/Auth/AuthLayout";
 
-const VerifyOtp = () => {
+const VerifyEmail = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +71,9 @@ const VerifyOtp = () => {
     try {
       setIsLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 500));
-      navigate("/set-password", { state: { email, resetCode: otpValue } });
+      navigate("/successful", {
+        state: { message: "Your email has been verified.", next: "/home" },
+      });
     } catch (error) {
       console.error("Failed to verify OTP:", error);
       setError("Invalid OTP code. Please try again.");
@@ -130,4 +132,4 @@ const VerifyOtp = () => {
   );
 };
 
-export default VerifyOtp;
+export default VerifyEmail;
