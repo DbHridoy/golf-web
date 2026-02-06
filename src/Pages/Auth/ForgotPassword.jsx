@@ -2,13 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import AuthLayout from "../../Components/Auth/AuthLayout";
-import { useSendOtpMutation } from "../../redux/api/authApi";
 
 function ForgetPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [sendOtp, { isLoading }] = useSendOtpMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleBackToLogin = () => {
     navigate("/login");
@@ -24,11 +23,14 @@ function ForgetPassword() {
 
     try {
       setError("");
-      await sendOtp(email).unwrap();
+      setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 500));
       navigate("/verify-otp", { state: { email } });
     } catch (error) {
       console.error("Failed to send reset code:", error);
       setError("Failed to send reset code. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 

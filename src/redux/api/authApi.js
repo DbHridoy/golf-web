@@ -2,6 +2,30 @@ import { baseApi } from "../baseApi";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    register: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+
+    verifyEmail: builder.mutation({
+      query: ({ email, code }) => ({
+        url: "/auth/verify-email",
+        method: "POST",
+        body: { email, code },
+      }),
+    }),
+
+    resendVerificationEmail: builder.mutation({
+      query: (email) => ({
+        url: "/auth/resend-verification",
+        method: "POST",
+        body: { email },
+      }),
+    }),
+
     login: builder.mutation({
       query: (credentials) => ({
         url: "/auth/login",
@@ -45,9 +69,12 @@ export const authApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,
   useSendOtpMutation,
   useVerifyOtpMutation,
   useSetNewPasswordMutation,
+  useVerifyEmailMutation,
+  useResendVerificationEmailMutation,
 } = authApi;
