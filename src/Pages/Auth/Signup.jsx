@@ -7,9 +7,9 @@ const Signup = () => {
   const location = useLocation();
   const role = location.state?.role || "club"; // fallback role if not provided
   const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
-    password: "",
-    confirmPassword: "",
+    password: ""
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,10 +36,8 @@ const Signup = () => {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      if (formData.email && formData.password && formData.password === formData.confirmPassword) {
-        navigate("/");
-      } else if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
+      if (formData.email && formData.password) {
+        navigate("/verify-email", { state: { email: formData.email } });
       } else {
         setError("Please fill in all fields");
       }
@@ -76,6 +74,22 @@ const Signup = () => {
 
         <div className="space-y-6">
           <div>
+            <label htmlFor="fullName" className="block text-sm font-medium mb-1">
+              Full Name
+            </label>
+            <input
+              name="fullName"
+              type="text"
+              id="fullName"
+              value={formData.fullName}
+              placeholder="Enter your full name"
+              onChange={handleChange}
+              autoComplete="name"
+              className="w-full h-11 sm:h-12 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#9D4C1D] focus:border-[#9D4C1D]"
+            />
+          </div>
+
+          <div>
             <label htmlFor="email" className="block text-sm font-medium mb-1">
               Email
             </label>
@@ -102,25 +116,6 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
-              autoComplete="new-password"
-              className="w-full h-11 sm:h-12 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#9D4C1D] focus:border-[#9D4C1D]"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium mb-1"
-            >
-              Confirm Password
-            </label>
-            <input
-              name="confirmPassword"
-              type="password"
-              id="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Re-enter your password"
               autoComplete="new-password"
               className="w-full h-11 sm:h-12 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#9D4C1D] focus:border-[#9D4C1D]"
             />
